@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    {% set title = "" %}
+    {% include 'blocks/head.html' %}
+  <body>
+    {% include 'blocks/topBar.html'   %}
+    <div class="main-content">
+        <a></a>
+        <h1 class="center-text">{{course['name']}}</h1>
+        <p class="center-text">{{course['subject'][0].upper() + course['subject'][1::]}} • {{course['_id']}}</p>
+        <div class="center-flex">
+            <a class="bottom-line">
+                <ion-icon name="person"></ion-icon>
+                <p>{{course['students']|length}} students</p>
+            </a>
+        </div>
+        <h3 class="center-text">
+            NEW LESSON
+        </h3>
+        <p class="center-text">
+            Simply enter a name, upload a video, and AI will make the summary, questions, and lesson for you!
+        </p>
+        <div class="center-flex">
+            <div class="course-card lesson-list-container">
+                <input name="name" class="course-name-input" placeholder="Lesson Name">
+                <div
+                class="lesson-item"
+                >
+                    <br>
+                    <input
+                    type="file"
+                    name="lessonvideo"
+                    class="video-input"
+                    accept="video/*"
+                    >
+                    <input disabled type="hidden" value="{{course['_id']}}" name="course_id" class="course-id-input">
+                    <input class="upload-btn button" type="submit" value="UPLOAD" onclick="LessonPage.createLesson()">
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    {% set title = "" %}
+    {% include 'blocks/head.html' %}
+  <body>
+    {% include 'blocks/topBar.html'   %}
+    <div class="main-content">
+        <a class="button" href="/course/{{course['_id']}}">← COURSE • {{course['name']}}</a>
+        <h1 class="center-text">{{lesson['name']}}</h1>
+        <p class="center-text">{{course['name']}} • {{course['subject'][0].upper() + course['subject'][1::]}} • {{course['_id']}}</p>
+        <h3 class="center-text">
+            LESSON QUIZ
+        </h3>
+        <div class="center-flex">
+            <a class="button quizStartBtn" id="connectButton">
+                CONNECT PHYSICAL BUTTONS
+            </a>
+            <p class="center-text" id="status">Status: Disconnected</p>
+            <a class="button quizStartBtn" onclick="QuizControl.nextQuestion()">
+                START
+            </a>
+        </div>
+        <div class="quiz-container">
+            {% set index = namespace(value=1) %}
+            {% for q in lesson['quiz'] %}
+                <div class="quiz-question">
+                    <p>Q {{ index.value }}</p>
+                    <h1>
+                        {{q['question']}}
+                    </h1>
+                    <div class="answer-choice-container">
+                        {% set index2 = namespace(value=1) %}
+                        {% for a in q['answer_choices'] %}
+                            <a class="answer-choice button" data-answer-index="{{ index2.value }}">
+                                {{a}}
+                            </a>
+                        {% set index2.value = index2.value + 1 %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% set index.value = index.value + 1 %}
+            {% endfor %}
+        </div>
+        <div class="center-flex">
+            <p class="quiz-result"></p>
+            <a class="button quizSubmitBtn" onclick="QuizControl.submitQuiz()">
+                SUBMIT
+            </a>
+        </div>
+    </div>
+    <script>
+        var quizContainer = document.querySelector(".quiz-container");
+        quizContainer.addEventListener("click", ev => {
+            console.log(ev);
+            if (!ev.target.matches('.answer-choice')) return;
+            let answer = ev.target.getAttribute("data-answer-index");
+            QuizControl.affectQuestion(answer, 0);
+        });
+
+        serialInit();
+    </script>
+  </body>
+</html>

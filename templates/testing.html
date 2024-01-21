@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>testing</title>
+  </head>
+  <body>
+    {% if user %}
+    <h1>Welcome {{user.userinfo.name}}!</h1>
+    <p><a href="/logout" id="qsLogoutBtn">Logout</a></p>
+    <div><pre>{{pretty}}</pre></div>
+    {% else %}
+    <h1 id="profileDropDown">Welcome Guest</h1>
+    <p><a href="/login" id="qsLoginBtn">Login</a></p>
+    {% endif %}
+    <a href="/dashboard">Dashboard</a>
+  </body>
+</html>

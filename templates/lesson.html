@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    {% set title = "" %}
+    {% include 'blocks/head.html' %}
+  <body>
+    {% include 'blocks/topBar.html'   %}
+    <div class="main-content">
+        <a class="button" href="/course/{{course['_id']}}">← COURSE • {{course['name']}}</a>
+        <h1 class="center-text">{{lesson['name']}}</h1>
+        <p class="center-text">{{course['name']}} • {{course['subject'][0].upper() + course['subject'][1::]}} • {{course['_id']}}</p>
+        <h3 class="center-text">
+            Lesson
+        </h3>
+        <div class="center-flex">
+            <div class="flex-row">
+                <div class="lesson-section">
+                    <h2 class="center-text">
+                        OVERVIEW
+                    </h2>
+                    {{lesson['summary']}}
+                </div>
+            </div>
+            <div class="lesson-section">
+                <h2 class="center-text">
+                    WATCH THE VIDEO
+                </h2>
+                <video
+                src="/static/video/multiplying-2-digit-by-1-digit-with-partial-products.mp4"
+                controls
+                >
+                </video>
+            </div>
+            <a class="center-text button large" href="/course/{{course['_id']}}/lesson/{{lesson['_id']}}/quiz">
+                TAKE THE QUIZ AND TEST YOUR KNOWLEDGE
+            </a>
+        </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    {% set title = "" %}
+    {% include 'blocks/head.html' %}
+  <body>
+    {% include 'blocks/topBar.html'   %}
+    <div class="main-content">
+        <a class="button" href="/dashboard">← DASHBOARD</a>
+        <h1 class="center-text">{{course['name']}}</h1>
+        <p class="center-text">{{course['subject'][0].upper() + course['subject'][1::]}} • {{course['_id']}}</p>
+        <div class="center-flex">
+            <a class="bottom-line">
+                <ion-icon name="person"></ion-icon>
+                <p>{{course['students']|length}} students</p>
+            </a>
+        </div>
+        <h3 class="center-text">
+            {% if role == 'teacher' %}
+                Teacher
+            {% else %}
+                My Lessons
+            {% endif %}
+            <span style="font-weight: normal; font-style: italic;">- signed in as {{user['name']}}</span>
+        </h3>
+        <div class="lesson-list-container">
+            {% if role == 'teacher' %}
+                <a class="lesson-item create" href="/course/{{course['_id']}}/lesson/create">
+                    <h1 class="lesson-title">
+                        <ion-icon name="add-circle"></ion-icon>
+                        Create Lesson
+                    </h1>
+                </a>
+            {% elif lessons|length == 0 %}
+                <div class="lesson-item">
+                    <p class="center-text">
+                        You don't have any pending lessons.
+                    </p>
+                </div>
+            {% endif %}
+
+            {% for lesson in lessons %}
+                {% set done = lesson['student_status'][user['email']] %}
+                <a class="lesson-item {% if done %}disabled done{% endif %}" href="/course/{{course['_id']}}/lesson/{{lesson['_id']}}">
+                    <h1 class="lesson-title">
+                        {{lesson["name"]}}
+                    </h1>
+                    <p>
+                        {% if lesson['quiz']|length == 0 %}
+                            This lesson is still being processed by the AI!
+                        {% else %}
+                            {{lesson['quiz']|length}} questions
+                        {% endif %}
+                        <br>
+                        <span style="font-weight: 800;">
+                            STATUS:
+                            {% if lesson['quiz']|length == 0 %}
+                            <span style="color: gray">----</span>
+                            {% elif done %}
+                            <span style="color: green">DONE</span>
+                            {% else %}
+                            <span style="color: red">TODO</span>
+                            {% endif %}
+                        </span>
+                    </p>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+  </body>
+</html>

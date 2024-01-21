@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    {% set title = "" %}
+    {% include 'blocks/head.html' %}
+  <body>
+    {% include 'blocks/topBar.html'   %}
+    <div class="main-content">
+        <h1 class="center-text">Welcome, {{user['name']}}!</h1>
+        <p class="center-text">
+            {{role[0].upper() + role[1::]}} Dashboard
+        </p>
+        <div class="course-card-container">
+            {% if role == "teacher" %}
+                <a class="course-card add" onclick="CoursePage.createCourseSetShowing(true)">
+                    <ion-icon name="add-circle"></ion-icon>
+                    <p>
+                        Create New Course
+                    </p>
+                </a>
+                <form class="course-card create" oninput="General.setErrorText('')">
+                    <h3 class="no-margin">
+                        Create New Course
+                    </h3>
+                    <input class="course-name" name="name" placeholder="Course Name"/>
+                    <br>
+                    <select class="course-subject" name="subject">
+                        <option value="0" selected disabled>Subject</option>
+                        <option value="math">Math</option>
+                        <option value="english">English</option>
+                        <option value="health">Health</option>
+                        <option value="science">Science</option>
+                        <option value="socialstudies">Social Studies</option>
+                        <option value="art">Art</option>
+                        <option value="music">Music</option>
+                    </select>
+                    <p class="add-students-label">Add students:</p>
+                    <p class="tiny-subtitle">Type valid emails. You can also add them later.</p>
+                    <div class="bottom-line">
+                        <input class="add-student" type="email" name="student-email" placeholder="Student Email">
+                        <a class="add-btn" onclick="CoursePage.addStudent()"><ion-icon name="add"></ion-icon></a>
+                    </div>
+                    <p class="added-student-emails">
+                    </p>
+                    <div class="submit-btn-container">
+                        <a class="button small cancel" onclick="CoursePage.createCourseSetShowing(false)">Cancel</a>
+                        <a class="button small submit" onmousedown="CoursePage.addStudent()" onclick="CoursePage.createCourse()">Create</a>
+                    </div>
+                    <p class="error">
+                    </p>
+                </form>
+            {% else %}
+            <a class="course-card join" oninput="General.setErrorText('')">
+                <h3 class="center-text">
+                    Ask your teacher for a class code!
+                </h3>
+                <input maxlength="5" minlength="5" placeholder="Enter Class Code" class="course-id"/>
+                <div class="join-class-btn flex-row" onclick="CoursePage.joinCourse()">
+                    <ion-icon name="add"></ion-icon>
+                    <h2 class="no-margin">JOIN</h2>
+                </div>
+                <p class="error">
+                </p>
+            </a>
+            {% endif %}
+
+            {% if courses %}
+                {% for c in courses %}
+                <a class="course-card" href="course/{{c['_id']}}">
+                    <h1 class="course-name">{{c['name']}}</h1>
+                    <p class="course-subject">{{c['subject']}}</p>
+                    <div class="bottom-line">
+                        <ion-icon name="person"></ion-icon>
+                        <p>{{c['students']|length}} students</p>
+                    </div>
+                    <p class="course-code">{{c['_id']}}</p>
+                </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+  </body>
+</html>

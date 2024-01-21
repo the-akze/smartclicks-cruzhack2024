@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    {% set title = "" %}
+    {% include 'blocks/head.html'   %}
+  <body>
+    {% include 'blocks/topBar.html'   %}
+    <div class="main-content">
+        <div class="banner">
+            <div class="banner-content">
+                <h1>
+                    Discover a new way to learn, powered by natural language processing.
+                </h1>
+                <div class="banner-link-container">
+                    {% if user %}
+                    <a class="button large" href="/dashboard"><p>DASHBOARD →</p></a>
+                    {% else %}
+                    <a class="button large" href="/login"><p>GET STARTED →</p></a>
+                    {% endif %}
+                    <div class="flex-break"></div>
+                    <a class="button small"><p>LEARN MORE</p></a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
